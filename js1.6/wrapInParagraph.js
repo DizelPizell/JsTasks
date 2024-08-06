@@ -1,6 +1,6 @@
 function wrapInParagraph(text){
     const lines = text.split('\n');
-    return lines.map(line => '<p>${ line }</p>').join('');
+    return lines.map(line => '<p>${ line }</p>').join('\n');
 }
 
 const text1 = 'Some\nsimple multiline\ntext';
