@@ -1,10 +1,6 @@
-function partition(array, callback) {
+function partition(array, callback = (element) => element) {
     const trueArray = [];
     const falseArray = [];
-
-    if (typeof callback !== 'function') {
-        callback = (element) => element;
-    }
 
     for (let i = 0; i < array.length; i++) {
         const element = array[i];
