@@ -1,9 +1,8 @@
 function getField(arr = [], key) {
-    const result = [];
-    for (let i = 0; i < arr.length; i++) {
-        result.push(arr[i][key]);
+    if (!Array.isArray(arr)) {
+        return [];
     }
-    return result;
+    return arr.map(item => item[key]);
 }
 
 const data1 = [
