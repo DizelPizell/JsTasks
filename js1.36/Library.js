@@ -1,50 +1,51 @@
-function Book(name, author, year) {
+class Book {
+constructor(name, author, year) {
     this.name = name;
     this.author = author;
     this.year = year;
     this.reader = null;
-}
+ }
 
-Book.prototype.isAvailable = function() {
+isAvailable() {
     return this.reader === null;
-};
+ }
 
-Book.prototype.takeBook = function(readerName) {
+takeBook(readerName) {
     if (this.isAvailable()) {
         this.reader = readerName;
         return true;
     }
     return false;
-};
+ }
 
-Book.prototype.returnBook = function() {
+returnBook() {
     if (!this.isAvailable()) {
         this.reader = null;
         return true;
     }
     return false;
-};
+ }
 
-Book.prototype.changeBookName = function(newBookName) {
+changeBookName(newBookName) {
     if (typeof newBookName === 'string' && newBookName.trim().length > 0) {
         this.name = newBookName;
         return true;
     }
     return false;
-};
+ }
 
-Book.prototype.changeAuthorName = function(newAuthorName) {
+changeAuthorName(newAuthorName) {
     if (typeof newAuthorName === 'string' && newAuthorName.trim().length > 0) {
         this.author = newAuthorName;
         return true;
     }
     return false;
-};
+ }
 
-Book.prototype.getCurrentReader = function() {
+getCurrentReader() {
     return this.reader;
-};
-
+    }
+}
 const book1 = new Book('1984', 'George Orwell', 1949);
 console.log(book1.isAvailable());
 
