@@ -15,13 +15,10 @@ const A = {
     },
 };
 
-const B = objectCreate(A, {
-    objectName: {
-        value: 'Object B',
-        writable: true,
-        configurable: true,
-        enumerable: true,
-    },
+const B = Object.create(A, {
+  objectName: {
+    value: 'Object B',
+  },
 });
 
 console.log(A.getObjectName());
