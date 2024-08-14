@@ -10,12 +10,14 @@ class Addition {
 }
 
 // Write your code here
-Addition.prototype.add = (function(originalAdd) {
+function Decorator(func) {
     return function(...args) {
         console.log('called');
-        return originalAdd.apply(this, args);
+        return func.apply(this, args);
     };
-})(Addition.prototype.add);
+}
+
+Addition.prototype.add = Decorator(Addition.prototype.add);
 
 const startedValue = new Addition(5);
 const result = startedValue.add(3, 5, 6);
