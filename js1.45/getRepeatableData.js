@@ -28,28 +28,22 @@ function getData(key) {
     }
 }
 
-function getRepeatableData(getData, key, maxRequestsNumber = Infinity) {
-    let attemptCount = 0;
-
-    while (attemptCount <= maxRequestsNumber) {
-        attemptCount++;
-        try {
-            const result = getData(key);
-            return result;
-        } catch (error) {
-            if (error instanceof NotFoundError) {
-                throw error;
-            } else if (error instanceof TemporaryError) {
-                if (attemptCount > maxRequestsNumber) {
-                    throw new AttemptsLimitExceeded();
-                }
-            } else {
-                throw error;
+function getRepeatableData(getData, key, maxRequestsNumber = Infinity, attemptCount = 1) {
+    try {
+        const result = getData(key);
+        return result;
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        } else if (error instanceof TemporaryError) {
+            if (attemptCount >= maxRequestsNumber) {
+                throw new AttemptsLimitExceeded();
             }
+            return getRepeatableData(getData, key, maxRequestsNumber, attemptCount + 1);
+        } else {
+            throw error;
         }
     }
-
-    throw new AttemptsLimitExceeded();
 }
 
 try {
