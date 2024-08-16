@@ -1,4 +1,7 @@
 function arraysToCsv(data) {
+    if (!Array.isArray(data) || !data.every(Array.isArray)) {
+    throw new Error('Data is not a two-dimensional array');
+}
     return data.map(row => {
         return row.map(item => {
             if (typeof item === 'function') {
