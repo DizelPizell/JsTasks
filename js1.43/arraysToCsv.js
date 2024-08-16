@@ -1,17 +1,20 @@
 function arraysToCsv(data) {
     if (!Array.isArray(data) || !data.every(Array.isArray)) {
-    throw new Error('Data is not a two-dimensional array');
-}
+        throw new Error('Data is not a two-dimensional array');
+    }
+
     return data.map(row => {
         return row.map(item => {
-            if (typeof item === 'function') {
+            if (typeof item === 'function' || typeof item === 'object' && item !== null || item === undefined) {
                 throw new Error('Unexpected value');
             }
+            
             if (typeof item === 'string') {
                 if (item.includes(',') || item.includes('"') || item.includes('\n')) {
                     item = `"${item.replace(/"/g, '""')}"`;
                 }
             }
+
             return item;
         }).join(',');
     }).join('\n');
@@ -19,11 +22,14 @@ function arraysToCsv(data) {
 
 try {
     console.log(arraysToCsv([[1, 2], ['a', 'b']])); 
-
     console.log(arraysToCsv([[1, 2], ['a,b', 'c,d']])); 
-
     console.log(arraysToCsv([[1, 2], ['a', 'b'], [() => {}, 'c']])); 
-} 
-catch (e) {
+} catch (e) {
+    console.error(e.message);
+}
+
+try {
+    console.log(arraysToCsv([[1, 2], ['a', 'b'], [null, 'c']])); 
+} catch (e) {
     console.error(e.message);
 }
