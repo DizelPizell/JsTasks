@@ -2,7 +2,7 @@ const api = {
     _employees: [
       { id: 1, name: 'Alex', salary: 120000 },
       { id: 2, name: 'Fred', salary: 110000 },
-      { id: 3, name: 'Bob', salary: 180000 },
+      { id: 3, name: 'Bob', salary: 80000 },
     ],
   
     getEmployees() {
@@ -13,7 +13,7 @@ const api = {
   
     setEmployeeSalary(employeeId, newSalary) {
       return new Promise((resolve) => {
-        this._employees = this._employees.map((employee) =>
+        const updatedEmployees = this._employees.map((employee) =>
           employee.id !== employeeId
             ? employee
             : {
@@ -21,6 +21,7 @@ const api = {
                 salary: newSalary,
               }
         );
+        this._employees = updatedEmployees;
         resolve(this._employees.find(({ id }) => id === employeeId));
       });
     },
@@ -39,19 +40,25 @@ const api = {
       });
     },
   
-    sendBudgetToAccounting(summarySalaries) {
+    setEmployees(newEmployees) {
       return new Promise((resolve) => {
-        console.log(`Total salaries sent to accounting: ${summarySalaries}`);
-        resolve(true);
+        this._employees = newEmployees;
+        resolve();
+      });
+    },
+  
+    sendBudgetToAccounting(newBudget) {
+      return new Promise((resolve) => {
+        console.log(`Sending new budget to accounting: ${newBudget}`);
+        resolve();
       });
     },
   };
   
-  async function increaseSalaries() {
+  async function increaseSalary() {
     try {
       const employees = await api.getEmployees();
   
-      // Считаем среднее арифметическое по зарплатам
       const totalSalary = employees.reduce((sum, employee) => sum + employee.salary, 0);
       const averageSalary = totalSalary / employees.length;
   
@@ -84,13 +91,12 @@ const api = {
       await api.sendBudgetToAccounting(totalNewSalaries);
   
       return updatedCount;
-      
     } catch (error) {
       console.error('Unexpected error:', error);
       return 0;
     }
   }
   
-  increaseSalaries().then((count) => {
+  increaseSalary().then((count) => {
     console.log(`${count} salaries were successfully increased.`);
   });
